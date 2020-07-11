@@ -19,12 +19,24 @@ class SetupController extends Controller
     {
         # code...
         //Config::set('app.name', "ame nane");
-        // dd($request->all());
-        $this->setEnvironmentValue(['APP_NAME'=> $request->app_name]);
-        $this->setEnvironmentValue(['DB_DATABASE'=> $request->app_name]);
-        $this->setEnvironmentValue(['DB_USERNAME'=> $request->app_name]);
-        $this->setEnvironmentValue(['DB_PASSWORD'=> $request->app_name]);
-        Artisan::call('migrate');
+         dd($request->all());
+        try {
+
+            $this->setEnvironmentValue(['APP_NAME'=> $request->app_name]);
+            $this->setEnvironmentValue(['DB_DATABASE'=> $request->database_name]);
+            $this->setEnvironmentValue(['DB_USERNAME'=> $request->database_username]);
+            $this->setEnvironmentValue(['DB_PASSWORD'=> $request->database_password]);
+    
+        } catch (\Throwable $th) {
+            return "در هنگام شخصی سازی مشکلی پیش آمده است.";
+        }
+
+        try {
+            Artisan::call('migrate');
+        } catch (\Throwable $th) {
+            return "در هنگام ساخت دیتابیس مشکلی پیش آمده است.";
+        }
+       
 
         return redirect('/');
     }

@@ -23,7 +23,4 @@ Route::post('/installer', 'SetupController@install');
 
 Auth::routes();
 
-Route::get('/awd', function(){
-    return response()->file(database_path('amb.txt'));
-
-})->name('home');
+Route::get('/home', 'HomeController@index');
